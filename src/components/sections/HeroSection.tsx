@@ -1,9 +1,40 @@
-import HeroScene from "../three/HeroScene";
+import { KeyboardEvent, lazy, memo, Suspense, useCallback, useState } from "react";
 import { siteContent } from "../../content";
 import { SECTION_IDS } from "../../constants/layout";
+import { usePrefersReducedMotion } from "../../hooks/usePrefersReducedMotion";
+import { canRenderInteractiveHero } from "../../lib/performance/device";
+
+const HeroScene = lazy(() => import("../three/HeroScene"));
+
+const HeroSceneFallback = () => {
+  return (
+    <div className="hero-scene hero-scene--fallback" aria-hidden="true">
+      <div className="hero-scene__placeholder-orb" />
+      <div className="hero-scene__placeholder-badge">Activate interactive profile scene</div>
+      <div className="hero-scene__rim" />
+    </div>
+  );
+};
 
 const HeroSection = () => {
   const { hero } = siteContent;
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const [shouldLoadScene, setShouldLoadScene] = useState(false);
+  const canLoadScene = !prefersReducedMotion && canRenderInteractiveHero();
+  const activateScene = useCallback(() => {
+    if (canLoadScene) {
+      setShouldLoadScene(true);
+    }
+  }, [canLoadScene]);
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        activateScene();
+      }
+    },
+    [activateScene]
+  );
 
   return (
     <section className="hero section-shell" id={SECTION_IDS.hero}>
@@ -35,11 +66,23 @@ const HeroSection = () => {
           )}
         </div>
       </div>
-      <div className="hero__character">
-        <HeroScene />
+      <div
+        className="hero__character"
+        role={canLoadScene && !shouldLoadScene ? "button" : undefined}
+        tabIndex={canLoadScene && !shouldLoadScene ? 0 : undefined}
+        aria-label={canLoadScene && !shouldLoadScene ? "Activate interactive profile scene" : undefined}
+        onPointerEnter={activateScene}
+        onFocusCapture={activateScene}
+        onClick={activateScene}
+        onKeyDown={handleKeyDown}
+        onTouchStart={activateScene}
+      >
+        <Suspense fallback={<HeroSceneFallback />}>
+          {shouldLoadScene && canLoadScene ? <HeroScene /> : <HeroSceneFallback />}
+        </Suspense>
       </div>
     </section>
   );
 };
 
-export default HeroSection;
+export default memo(HeroSection);

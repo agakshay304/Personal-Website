@@ -19,12 +19,14 @@ export const setupCharacterScroll = (
 
   monitorRoot?.traverse((child: THREE.Object3D) => {
     const mesh = child as THREE.Mesh;
-    if (mesh.isMesh && mesh.material) {
-      monitorMaterial = mesh.material as THREE.Material;
-      const standardMaterial = mesh.material as THREE.MeshStandardMaterial;
-      standardMaterial.transparent = true;
-      standardMaterial.opacity = 0;
+    if (!mesh.isMesh || !mesh.material) {
+      return;
     }
+
+    monitorMaterial = mesh.material as THREE.Material;
+    const standardMaterial = mesh.material as THREE.MeshStandardMaterial;
+    standardMaterial.transparent = true;
+    standardMaterial.opacity = 0;
   });
 
   if (screenLight?.material) {
@@ -38,7 +40,7 @@ export const setupCharacterScroll = (
       trigger: ".hero",
       start: "top top",
       end: "bottom top",
-      scrub: true,
+      scrub: 0.35,
       invalidateOnRefresh: true,
     },
   });
@@ -54,7 +56,7 @@ export const setupCharacterScroll = (
       trigger: ".about",
       start: "center 55%",
       end: "bottom top",
-      scrub: true,
+      scrub: 0.45,
       invalidateOnRefresh: true,
     },
   });
@@ -90,7 +92,7 @@ export const setupCharacterScroll = (
       trigger: ".expertise",
       start: "top top",
       end: "bottom top",
-      scrub: true,
+      scrub: 0.4,
       invalidateOnRefresh: true,
     },
   });
@@ -110,25 +112,24 @@ export const setupSectionTimelines = () => {
   const experienceTimeline = gsap.timeline({
     scrollTrigger: {
       trigger: ".experience",
-      start: "top 38%",
-      end: "bottom center",
-      scrub: true,
+      start: "top 65%",
+      toggleActions: "play none none reverse",
       invalidateOnRefresh: true,
-      id: "projects-trigger",
+      once: true,
     },
   });
 
   experienceTimeline
     .fromTo(
       ".experience__track",
-      { maxHeight: "12%", opacity: 0 },
-      { maxHeight: "100%", opacity: 1, duration: 0.8 },
+      { scaleY: 0.18, opacity: 0, transformOrigin: "top center" },
+      { scaleY: 1, opacity: 1, duration: 0.65 },
       0
     )
     .fromTo(
       ".experience-card",
       { opacity: 0, y: 36 },
-      { opacity: 1, y: 0, stagger: 0.14, duration: 0.6 },
+      { opacity: 1, y: 0, stagger: 0.12, duration: 0.55 },
       0
     );
 

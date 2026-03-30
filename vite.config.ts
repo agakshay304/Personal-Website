@@ -7,12 +7,37 @@ export default defineConfig({
     chunkSizeWarningLimit: 750,
     rollupOptions: {
       output: {
-        manualChunks: {
-          react: ["react", "react-dom"],
-          motion: ["gsap"],
-          "three-core": ["three"],
-          "three-stdlib": ["three-stdlib"],
-          r3f: ["@react-three/fiber"],
+        manualChunks(id) {
+          if (id.indexOf("node_modules") === -1) {
+            return undefined;
+          }
+
+          if (
+            id.indexOf("react-dom") !== -1 ||
+            id.indexOf("react/jsx-runtime") !== -1 ||
+            id.indexOf("/react/") !== -1 ||
+            id.indexOf("/scheduler/") !== -1
+          ) {
+            return "react";
+          }
+
+          if (id.indexOf("gsap") !== -1) {
+            return "gsap";
+          }
+
+          if (id.indexOf("@react-three/fiber") !== -1) {
+            return "r3f";
+          }
+
+          if (id.indexOf("three-stdlib") !== -1) {
+            return "three-stdlib";
+          }
+
+          if (id.indexOf("/three/") !== -1) {
+            return "three-core";
+          }
+
+          return undefined;
         },
       },
     },
