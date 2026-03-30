@@ -12,6 +12,7 @@ import { siteContent } from "../../content";
 import { SECTION_IDS } from "../../constants/layout";
 import { usePrefersReducedMotion } from "../../hooks/usePrefersReducedMotion";
 import { canRenderInteractiveHero } from "../../lib/performance/device";
+import MobileHeroScene from "../three/MobileHeroScene";
 
 const HeroScene = lazy(() => import("../three/HeroScene"));
 
@@ -109,7 +110,15 @@ const HeroSection = () => {
           onTouchStart={activateScene}
         >
           <Suspense fallback={<HeroSceneFallback />}>
-            {shouldLoadScene && canLoadScene ? <HeroScene /> : <HeroSceneFallback />}
+            {canLoadScene ? (
+              shouldLoadScene ? (
+                <HeroScene />
+              ) : (
+                <HeroSceneFallback />
+              )
+            ) : (
+              <MobileHeroScene />
+            )}
           </Suspense>
         </div>
       </div>
