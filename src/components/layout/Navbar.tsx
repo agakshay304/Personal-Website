@@ -1,3 +1,4 @@
+import { memo } from "react";
 import HoverLink from "../ui/HoverLink";
 import { SECTION_IDS } from "../../constants/layout";
 import { siteContent } from "../../content";
@@ -16,7 +17,7 @@ const primaryLink = siteContent.socials.find(
 const Navbar = () => {
   return (
     <header className="navbar">
-      <a className="navbar__brand" href="#" data-cursor="disable">
+      <a className="navbar__brand" href="#hero" data-cursor="disable">
         AG
       </a>
       {primaryLink ? (
@@ -49,4 +50,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default memo(Navbar);

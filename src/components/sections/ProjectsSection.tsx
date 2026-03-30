@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { MouseEvent, memo, useCallback, useMemo, useState } from "react";
 import { MdArrowBack, MdArrowForward, MdArrowOutward } from "react-icons/md";
 import SectionHeading from "../ui/SectionHeading";
 import TagPill from "../ui/TagPill";
@@ -8,19 +8,29 @@ import { isPlaceholderValue } from "../../utils/placeholders";
 
 const ProjectsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeProject = siteContent.projects[activeIndex];
+  const activeProject = useMemo(() => siteContent.projects[activeIndex], [activeIndex]);
 
-  const goToNext = () =>
+  const goToNext = useCallback(() => {
     setActiveIndex((current) => (current + 1) % siteContent.projects.length);
-  const goToPrevious = () =>
+  }, []);
+
+  const goToPrevious = useCallback(() => {
     setActiveIndex((current) =>
       current === 0 ? siteContent.projects.length - 1 : current - 1
     );
+  }, []);
+
+  const goToProject = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+    const index = Number(event.currentTarget.dataset.index);
+    setActiveIndex(index);
+  }, []);
 
   return (
     <section className="projects section-shell" id={SECTION_IDS.projects}>
       <SectionHeading kicker="Selected Work" align="left">
-        <span className="animate-title">Side projects focused on practical utility and accessible product UX.</span>
+        <span className="animate-title">
+          Side projects focused on practical utility and accessible product UX.
+        </span>
       </SectionHeading>
       <div className="projects__carousel">
         <div className="projects__copy">
@@ -63,6 +73,8 @@ const ProjectsSection = () => {
           <img
             src={activeProject.image}
             alt={activeProject.name}
+            loading="lazy"
+            decoding="async"
           />
           <button
             className="projects__nav projects__nav--right"
@@ -78,9 +90,12 @@ const ProjectsSection = () => {
         {siteContent.projects.map((project, index) => (
           <button
             key={project.name}
-            className={index === activeIndex ? "projects__dot projects__dot--active" : "projects__dot"}
+            className={
+              index === activeIndex ? "projects__dot projects__dot--active" : "projects__dot"
+            }
             aria-label={`Open ${project.name}`}
-            onClick={() => setActiveIndex(index)}
+            data-index={index}
+            onClick={goToProject}
             data-cursor="disable"
           />
         ))}
@@ -89,4 +104,4 @@ const ProjectsSection = () => {
   );
 };
 
-export default ProjectsSection;
+export default memo(ProjectsSection);

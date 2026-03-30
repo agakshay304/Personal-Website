@@ -1,3 +1,4 @@
+import { memo } from "react";
 import SectionHeading from "../ui/SectionHeading";
 import TagPill from "../ui/TagPill";
 import { siteContent } from "../../content";
@@ -7,7 +8,9 @@ const ExperienceSection = () => {
   return (
     <section className="experience section-shell" id={SECTION_IDS.experience}>
       <SectionHeading kicker="Career" align="left">
-        <span className="animate-title">Recent roles across consumer product and developer platform engineering.</span>
+        <span className="animate-title">
+          Recent roles across consumer product and developer platform engineering.
+        </span>
       </SectionHeading>
       <div className="experience__layout">
         <div className="experience__track">
@@ -45,4 +48,4 @@ const ExperienceSection = () => {
   );
 };
 
-export default ExperienceSection;
+export default memo(ExperienceSection);

@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 interface HoverLinkProps {
   text: string;
   disableCursor?: boolean;
@@ -12,4 +14,4 @@ const HoverLink = ({ text, disableCursor = false }: HoverLinkProps) => {
   );
 };
 
-export default HoverLink;
+export default memo(HoverLink);

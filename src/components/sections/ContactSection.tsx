@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { MdArrowOutward } from "react-icons/md";
 import SectionHeading from "../ui/SectionHeading";
 import { siteContent } from "../../content";
@@ -8,7 +9,9 @@ const ContactSection = () => {
   return (
     <section className="contact section-shell" id={SECTION_IDS.contact}>
       <SectionHeading kicker="Contact" align="left">
-        <span className="animate-title">Available for product engineering roles, platform work, and thoughtful technical collaboration.</span>
+        <span className="animate-title">
+          Available for product engineering roles, platform work, and thoughtful technical collaboration.
+        </span>
       </SectionHeading>
       <div className="contact__grid">
         <article className="contact__card">
@@ -53,12 +56,7 @@ const ContactSection = () => {
                   {social.label}
                 </span>
               ) : (
-                <a
-                  href={social.url}
-                  key={social.platform}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a href={social.url} key={social.platform} target="_blank" rel="noreferrer">
                   {social.label}
                 </a>
               )
@@ -70,4 +68,4 @@ const ContactSection = () => {
   );
 };
 
-export default ContactSection;
+export default memo(ContactSection);

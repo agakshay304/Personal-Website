@@ -1,11 +1,10 @@
-import { ReactNode } from "react";
+import { memo, ReactNode } from "react";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
-import { SiLeetcode, SiGeeksforgeeks, SiHackerrank } from "react-icons/si";
+import { SiGeeksforgeeks, SiHackerrank, SiLeetcode } from "react-icons/si";
 import { TbNumber3 } from "react-icons/tb";
 import IconLink from "../ui/IconLink";
 import HoverLink from "../ui/HoverLink";
 import { siteContent } from "../../content";
-import { isPlaceholderValue } from "../../utils/placeholders";
 
 const iconMap: Record<string, ReactNode> = {
   GitHub: <FaGithub />,
@@ -18,21 +17,11 @@ const iconMap: Record<string, ReactNode> = {
 
 const SocialRail = () => {
   const { socials, contact } = siteContent;
-  const validSocials = socials.filter((social) => !isPlaceholderValue(social.url));
-  const pendingSocials = socials.filter((social) => isPlaceholderValue(social.url));
 
   return (
     <aside className="social-rail">
       <div className="social-rail__icons">
-        {validSocials.map((social) => (
-          <IconLink
-            key={social.platform}
-            href={social.url}
-            label={social.label}
-            icon={iconMap[social.platform] ?? <FaGithub />}
-          />
-        ))}
-        {pendingSocials.map((social) => (
+        {socials.map((social) => (
           <IconLink
             key={social.platform}
             href={social.url}
@@ -53,4 +42,4 @@ const SocialRail = () => {
   );
 };
 
-export default SocialRail;
+export default memo(SocialRail);

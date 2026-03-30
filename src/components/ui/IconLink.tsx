@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { memo, ReactNode } from "react";
 import { isPlaceholderValue } from "../../utils/placeholders";
 
 interface IconLinkProps {
@@ -32,4 +32,4 @@ const IconLink = ({ href, label, icon }: IconLinkProps) => {
   );
 };
 
-export default IconLink;
+export default memo(IconLink);

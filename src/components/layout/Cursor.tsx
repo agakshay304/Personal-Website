@@ -1,63 +1,113 @@
 import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
 
 const Cursor = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const cursor = cursorRef.current;
-    if (!cursor) return;
+    if (!cursor) {
+      return undefined;
+    }
 
-    let hoverLocked = false;
+    const finePointerQuery = window.matchMedia("(pointer: fine)");
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!finePointerQuery.matches || reducedMotionQuery.matches) {
+      cursor.style.display = "none";
+      return undefined;
+    }
+
+    let frameId = 0;
+    let isLockedToTarget = false;
+    let activeTarget: HTMLElement | null = null;
     const cursorPos = { x: 0, y: 0 };
     const mousePos = { x: 0, y: 0 };
 
-    const onMouseMove = (event: MouseEvent) => {
+    const applyTransform = (x: number, y: number) => {
+      cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    };
+
+    const tick = () => {
+      if (!isLockedToTarget) {
+        cursorPos.x += (mousePos.x - cursorPos.x) * 0.16;
+        cursorPos.y += (mousePos.y - cursorPos.y) * 0.16;
+        applyTransform(cursorPos.x, cursorPos.y);
+      }
+
+      const deltaX = Math.abs(mousePos.x - cursorPos.x);
+      const deltaY = Math.abs(mousePos.y - cursorPos.y);
+      if (!isLockedToTarget && (deltaX > 0.2 || deltaY > 0.2)) {
+        frameId = window.requestAnimationFrame(tick);
+        return;
+      }
+      frameId = 0;
+    };
+
+    const requestTick = () => {
+      if (!frameId) {
+        frameId = window.requestAnimationFrame(tick);
+      }
+    };
+
+    const resetCursor = () => {
+      cursor.classList.remove("cursor--icons", "cursor--disabled");
+      isLockedToTarget = false;
+      activeTarget = null;
+      requestTick();
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
       mousePos.x = event.clientX;
       mousePos.y = event.clientY;
+      requestTick();
     };
 
-    const render = () => {
-      if (!hoverLocked) {
-        const delay = 7;
-        cursorPos.x += (mousePos.x - cursorPos.x) / delay;
-        cursorPos.y += (mousePos.y - cursorPos.y) / delay;
-        gsap.to(cursor, { x: cursorPos.x, y: cursorPos.y, duration: 0.2 });
+    const onPointerOver = (event: PointerEvent) => {
+      const target = (event.target as HTMLElement | null)?.closest<HTMLElement>("[data-cursor]");
+      if (!target || target === activeTarget) {
+        return;
       }
-      requestAnimationFrame(render);
-    };
 
-    const handleHover = (event: Event) => {
-      const target = event.currentTarget as HTMLElement;
-      hoverLocked = target.dataset.cursor === "icons";
-      cursor.classList.toggle("cursor--icons", hoverLocked);
-      cursor.classList.toggle("cursor--disabled", target.dataset.cursor === "disable");
-      if (hoverLocked) {
+      activeTarget = target;
+      const cursorMode = target.dataset.cursor;
+      isLockedToTarget = cursorMode === "icons";
+      cursor.classList.toggle("cursor--icons", cursorMode === "icons");
+      cursor.classList.toggle("cursor--disabled", cursorMode === "disable");
+
+      if (cursorMode === "icons") {
         const rect = target.getBoundingClientRect();
-        gsap.to(cursor, { x: rect.left, y: rect.top, duration: 0.2 });
+        cursorPos.x = rect.left;
+        cursorPos.y = rect.top;
+        mousePos.x = rect.left;
+        mousePos.y = rect.top;
         cursor.style.setProperty("--cursorH", `${rect.height}px`);
+        applyTransform(rect.left, rect.top);
       }
     };
 
-    const resetHover = () => {
-      cursor.classList.remove("cursor--icons", "cursor--disabled");
-      hoverLocked = false;
+    const onPointerOut = (event: PointerEvent) => {
+      if (!activeTarget) {
+        return;
+      }
+
+      const relatedTarget = event.relatedTarget as Node | null;
+      if (relatedTarget && activeTarget.contains(relatedTarget)) {
+        return;
+      }
+
+      resetCursor();
     };
 
-    document.addEventListener("mousemove", onMouseMove);
-    document.querySelectorAll("[data-cursor]").forEach((element) => {
-      element.addEventListener("mouseenter", handleHover);
-      element.addEventListener("mouseleave", resetHover);
-    });
-
-    render();
+    document.addEventListener("pointermove", onPointerMove, { passive: true });
+    document.addEventListener("pointerover", onPointerOver);
+    document.addEventListener("pointerout", onPointerOut);
 
     return () => {
-      document.removeEventListener("mousemove", onMouseMove);
-      document.querySelectorAll("[data-cursor]").forEach((element) => {
-        element.removeEventListener("mouseenter", handleHover);
-        element.removeEventListener("mouseleave", resetHover);
-      });
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+      }
+      document.removeEventListener("pointermove", onPointerMove);
+      document.removeEventListener("pointerover", onPointerOver);
+      document.removeEventListener("pointerout", onPointerOut);
     };
   }, []);
 

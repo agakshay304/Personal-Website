@@ -1,3 +1,4 @@
+import { memo } from "react";
 import SectionHeading from "../ui/SectionHeading";
 import TagPill from "../ui/TagPill";
 import { siteContent } from "../../content";
@@ -27,4 +28,4 @@ const ExpertiseSection = () => {
   );
 };
 
-export default ExpertiseSection;
+export default memo(ExpertiseSection);

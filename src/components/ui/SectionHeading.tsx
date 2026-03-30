@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { memo, PropsWithChildren } from "react";
 
 interface Props extends PropsWithChildren {
   kicker?: string;
@@ -14,4 +14,4 @@ const SectionHeading = ({ kicker, children, align = "left" }: Props) => {
   );
 };
 
-export default SectionHeading;
+export default memo(SectionHeading);

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import SectionHeading from "../ui/SectionHeading";
 import { siteContent } from "../../content";
 import { SECTION_IDS } from "../../constants/layout";
@@ -19,4 +20,4 @@ const AboutSection = () => {
   );
 };
 
-export default AboutSection;
+export default memo(AboutSection);

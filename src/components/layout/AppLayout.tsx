@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { memo, PropsWithChildren } from "react";
 import Cursor from "./Cursor";
 import Navbar from "./Navbar";
 import SocialRail from "./SocialRail";
@@ -15,4 +15,4 @@ const AppLayout = ({ children }: PropsWithChildren) => {
   );
 };
 
-export default AppLayout;
+export default memo(AppLayout);

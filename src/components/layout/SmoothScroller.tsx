@@ -1,31 +1,43 @@
 import { PropsWithChildren, useEffect } from "react";
 import { gsap } from "gsap";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePrefersReducedMotion } from "../../hooks/usePrefersReducedMotion";
+import { hasDesktopMotionBudget } from "../../lib/performance/device";
 
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+gsap.registerPlugin(ScrollTrigger);
 
 const SmoothScroller = ({ children }: PropsWithChildren) => {
   const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
-    if (prefersReducedMotion || window.innerWidth < 1024) {
+    if (prefersReducedMotion || !hasDesktopMotionBudget()) {
       return undefined;
     }
 
-    const smoother = ScrollSmoother.create({
-      wrapper: "#smooth-wrapper",
-      content: "#smooth-content",
-      smooth: 1.6,
-      speed: 1.2,
-      effects: true,
-      normalizeScroll: true,
-      ignoreMobileResize: true,
+    let isCancelled = false;
+    let dispose: () => void = () => {};
+
+    import("gsap/ScrollSmoother").then(({ ScrollSmoother }) => {
+      if (isCancelled) {
+        return;
+      }
+
+      gsap.registerPlugin(ScrollSmoother);
+      const smoother = ScrollSmoother.create({
+        wrapper: "#smooth-wrapper",
+        content: "#smooth-content",
+        smooth: 1.1,
+        speed: 1,
+        effects: false,
+        ignoreMobileResize: true,
+      });
+      smoother.scrollTop(0);
+      dispose = () => smoother.kill();
     });
-    smoother.scrollTop(0);
+
     return () => {
-      smoother.kill();
+      isCancelled = true;
+      dispose();
     };
   }, [prefersReducedMotion]);
 
