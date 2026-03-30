@@ -1,4 +1,5 @@
 import { ProjectEntry } from "../types/content";
+import { withBase } from "../lib/assets";
 
 export const projectContent: ProjectEntry[] = [
   {
@@ -12,7 +13,7 @@ export const projectContent: ProjectEntry[] = [
     tools: ["Flutter", "REST APIs", "Google Maps Platform"],
     linkLabel: "Open on Google Play",
     link: "https://play.google.com/store/apps/details?id=com.pagdev.travulator",
-    image: "/assets/images/projects/travulator.svg",
+    image: withBase("/assets/images/projects/travulator.svg"),
   },
   {
     name: "GPTutor",
@@ -25,6 +26,6 @@ export const projectContent: ProjectEntry[] = [
     tools: ["Flutter", "REST APIs", "LLM integration"],
     linkLabel: "Open web app",
     link: "https://gptutor.web.app/",
-    image: "/assets/images/projects/gptutor.svg",
+    image: withBase("/assets/images/projects/gptutor.svg"),
   },
 ];

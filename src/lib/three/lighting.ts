@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { RGBELoader } from "three-stdlib";
 import { gsap } from "gsap";
+import { withBase } from "../assets";
 
 const rgbeLoader = new RGBELoader();
 let environmentTexturePromise: Promise<THREE.DataTexture> | null = null;
@@ -9,7 +10,7 @@ const loadEnvironmentTexture = async () => {
   if (!environmentTexturePromise) {
     environmentTexturePromise = new Promise((resolve, reject) => {
       rgbeLoader.load(
-        "/models/hero_env.hdr?v=1",
+        withBase("/models/hero_env.hdr?v=1"),
         (texture: THREE.DataTexture) => resolve(texture),
         undefined,
         (error) => reject(error)

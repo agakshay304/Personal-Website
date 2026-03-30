@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { DRACOLoader, GLTF, GLTFLoader } from "three-stdlib";
+import { withBase } from "../assets";
 import { decryptFile } from "./decrypt";
 
 const heroLoader = new GLTFLoader();
@@ -9,13 +10,13 @@ configureDracoLoader();
 let heroModelUrlPromise: Promise<string> | null = null;
 
 function configureDracoLoader() {
-  dracoLoader.setDecoderPath("/draco/");
+  dracoLoader.setDecoderPath(withBase("/draco/"));
   heroLoader.setDRACOLoader(dracoLoader);
 }
 
 const getHeroModelUrl = async () => {
   if (!heroModelUrlPromise) {
-    heroModelUrlPromise = decryptFile("/models/hero.enc?v=1", "MyCharacter12").then(
+    heroModelUrlPromise = decryptFile(withBase("/models/hero.enc?v=1"), "MyCharacter12").then(
       (encrypted) => URL.createObjectURL(new Blob([encrypted]))
     );
   }
