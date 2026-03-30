@@ -46,7 +46,8 @@ export const setupCharacterScroll = (
   });
 
   heroTimeline
-    .to(".hero__copy", { opacity: 0, y: 60, duration: 0.8 }, 0)
+    .to(".hero__copy--intro", { opacity: 0, y: 60, duration: 0.8 }, 0)
+    .to(".hero__copy--identity", { opacity: 0, y: 60, duration: 0.8 }, 0)
     .to(camera.position, { z: 22, duration: 1.1 }, 0)
     .to(".hero__character", { xPercent: -20, duration: 1.1 }, 0)
     .to(character.rotation, { y: 0.66, duration: 1 }, 0);
@@ -81,9 +82,15 @@ export const setupCharacterScroll = (
       0
     )
     .fromTo(
-      ".expertise__grid",
+      ".what-i-do__surface",
       { autoAlpha: 0, y: 40 },
       { autoAlpha: 1, y: 0, duration: 0.8, delay: 1.5 },
+      0
+    )
+    .fromTo(
+      ".what-i-do__heading",
+      { autoAlpha: 0, y: 56 },
+      { autoAlpha: 1, y: 0, duration: 0.8, delay: 1.2 },
       0
     );
 
@@ -99,6 +106,7 @@ export const setupCharacterScroll = (
 
   expertiseTimeline
     .to(".hero__character", { yPercent: -110, duration: 3.5 }, 0)
+    .to(".what-i-do__layout", { yPercent: 14, duration: 2 }, 0)
     .to(character.rotation, { x: -0.04, duration: 2 }, 0);
 
   return () => {

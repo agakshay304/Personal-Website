@@ -1,10 +1,24 @@
-import { KeyboardEvent, lazy, memo, Suspense, useCallback, useState } from "react";
+import {
+  KeyboardEvent,
+  lazy,
+  memo,
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { siteContent } from "../../content";
 import { SECTION_IDS } from "../../constants/layout";
 import { usePrefersReducedMotion } from "../../hooks/usePrefersReducedMotion";
 import { canRenderInteractiveHero } from "../../lib/performance/device";
 
 const HeroScene = lazy(() => import("../three/HeroScene"));
+
+type IdleWindow = Window & {
+  requestIdleCallback?: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number;
+  cancelIdleCallback?: (handle: number) => void;
+};
 
 const HeroSceneFallback = () => {
   return (
@@ -21,11 +35,31 @@ const HeroSection = () => {
   const prefersReducedMotion = usePrefersReducedMotion();
   const [shouldLoadScene, setShouldLoadScene] = useState(false);
   const canLoadScene = !prefersReducedMotion && canRenderInteractiveHero();
+  const [firstName, ...restName] = useMemo(() => hero.name.split(" "), [hero.name]);
+  const lastName = restName.join(" ");
   const activateScene = useCallback(() => {
     if (canLoadScene) {
       setShouldLoadScene(true);
     }
   }, [canLoadScene]);
+
+  useEffect(() => {
+    if (!canLoadScene) {
+      return undefined;
+    }
+
+    const idleWindow = window as IdleWindow;
+    if (idleWindow.requestIdleCallback) {
+      const idleId = idleWindow.requestIdleCallback(() => activateScene(), {
+        timeout: 1400,
+      });
+      return () => idleWindow.cancelIdleCallback?.(idleId);
+    }
+
+    const timeoutId = window.setTimeout(() => activateScene(), 900);
+    return () => window.clearTimeout(timeoutId);
+  }, [activateScene, canLoadScene]);
+
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
       if (event.key === "Enter" || event.key === " ") {
@@ -38,48 +72,46 @@ const HeroSection = () => {
 
   return (
     <section className="hero section-shell" id={SECTION_IDS.hero}>
-      <div className="hero__copy">
-        <p className="hero__eyebrow">{hero.greeting}</p>
-        <div className="hero__title">
-          <h1 className="hero__title-line">{hero.name}</h1>
-          <p className="hero__role hero__title-line">{hero.title}</p>
+      <div className="hero__stage">
+        <div className="hero__ambient hero__ambient--left" aria-hidden="true" />
+        <div className="hero__ambient hero__ambient--right" aria-hidden="true" />
+        <div className="hero__copy hero__copy--intro">
+          <p className="hero__eyebrow">{hero.greeting}</p>
+          <h1 className="hero__name hero__title-line">
+            <span>{firstName}</span>
+            {lastName ? <span>{lastName}</span> : null}
+          </h1>
+          <p className="hero__meta hero__title-line">{hero.title}</p>
         </div>
-        <p className="hero__punchline hero__summary">{hero.punchline}</p>
-        <div className="hero__summary">
-          {hero.summary.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
+        <div className="hero__copy hero__copy--identity">
+          <p className="hero__identity-kicker hero__title-line">{hero.stageLabel}</p>
+          <div
+            className="hero__identity hero__title-line"
+            aria-label={`${hero.stagePrimary} ${hero.stageSecondary}`}
+          >
+            <span className="hero__identity-primary">{hero.stagePrimary}</span>
+            <span className="hero__identity-secondary">{hero.stageSecondary}</span>
+          </div>
+          <div className="hero__identity-shadow" aria-hidden="true">
+            <span>{hero.stageSecondary}</span>
+            <span>{hero.stagePrimary}</span>
+          </div>
         </div>
-        <div className="hero__actions">
-          <a className="button button--primary" href={hero.primaryCta.href}>
-            {hero.primaryCta.label}
-          </a>
-          {hero.secondaryCta && (
-            <a
-              className="button button--ghost"
-              href={hero.secondaryCta.href}
-              target={hero.secondaryCta.external ? "_blank" : undefined}
-              rel={hero.secondaryCta.external ? "noreferrer" : undefined}
-            >
-              {hero.secondaryCta.label}
-            </a>
-          )}
+        <div
+          className="hero__character"
+          role={canLoadScene && !shouldLoadScene ? "button" : undefined}
+          tabIndex={canLoadScene && !shouldLoadScene ? 0 : undefined}
+          aria-label={canLoadScene && !shouldLoadScene ? "Activate interactive profile scene" : undefined}
+          onPointerEnter={activateScene}
+          onFocusCapture={activateScene}
+          onClick={activateScene}
+          onKeyDown={handleKeyDown}
+          onTouchStart={activateScene}
+        >
+          <Suspense fallback={<HeroSceneFallback />}>
+            {shouldLoadScene && canLoadScene ? <HeroScene /> : <HeroSceneFallback />}
+          </Suspense>
         </div>
-      </div>
-      <div
-        className="hero__character"
-        role={canLoadScene && !shouldLoadScene ? "button" : undefined}
-        tabIndex={canLoadScene && !shouldLoadScene ? 0 : undefined}
-        aria-label={canLoadScene && !shouldLoadScene ? "Activate interactive profile scene" : undefined}
-        onPointerEnter={activateScene}
-        onFocusCapture={activateScene}
-        onClick={activateScene}
-        onKeyDown={handleKeyDown}
-        onTouchStart={activateScene}
-      >
-        <Suspense fallback={<HeroSceneFallback />}>
-          {shouldLoadScene && canLoadScene ? <HeroScene /> : <HeroSceneFallback />}
-        </Suspense>
       </div>
     </section>
   );

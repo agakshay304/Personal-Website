@@ -131,8 +131,8 @@ const HeroScene = () => {
       renderer.setSize(bounds.width, bounds.height, false);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
       camera.aspect = bounds.width / bounds.height;
-      camera.position.set(0, 13.1, 24.7);
-      camera.zoom = 1.1;
+      camera.position.set(0, 12.6, 28.8);
+      camera.zoom = 1;
       camera.updateProjectionMatrix();
       renderOnce();
       ScrollTrigger.refresh();

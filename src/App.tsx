@@ -16,9 +16,8 @@ const revealTargets = [
   ".navbar",
   ".social-rail",
   ".hero__eyebrow",
+  ".hero__meta",
   ".hero__title-line",
-  ".hero__summary",
-  ".hero__actions",
 ];
 
 gsap.registerPlugin(ScrollTrigger);

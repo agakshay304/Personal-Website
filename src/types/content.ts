@@ -8,6 +8,9 @@ export type HeroContent = {
   greeting: string;
   name: string;
   title: string;
+  stageLabel: string;
+  stagePrimary: string;
+  stageSecondary: string;
   punchline: string;
   summary: string[];
   primaryCta: CTA;

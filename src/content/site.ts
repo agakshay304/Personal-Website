@@ -1,9 +1,13 @@
 import { AboutContent, ContactInfo, HeroContent } from "../types/content";
+import { withBase } from "../lib/assets";
 
 export const heroContent: HeroContent = {
   greeting: "Hello, I'm",
   name: "Akshay Gupta",
   title: "Software Development Engineer I - Amazon",
+  stageLabel: "Software Engineer for",
+  stagePrimary: "Commerce",
+  stageSecondary: "Platforms",
   punchline:
     "I design high-impact commerce experiences across detail page, cart, checkout, and order flows.",
   summary: [
@@ -16,7 +20,7 @@ export const heroContent: HeroContent = {
   },
   secondaryCta: {
     label: "Download Resume",
-    href: "/assets/resume/Akshay_Gupta_Resume.pdf",
+    href: withBase("/assets/resume/Akshay_Gupta_Resume.pdf"),
     external: true,
   },
 };
@@ -34,5 +38,5 @@ export const contactContent: ContactInfo = {
   email: "agakshay304@gmail.com",
   phone: "+91 95544 28644",
   location: "India | UTC+05:30",
-  resumeUrl: "/assets/resume/Akshay_Gupta_Resume.pdf",
+  resumeUrl: withBase("/assets/resume/Akshay_Gupta_Resume.pdf"),
 };
