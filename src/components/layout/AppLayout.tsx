@@ -2,6 +2,7 @@ import { PropsWithChildren } from "react";
 import Cursor from "./Cursor";
 import Navbar from "./Navbar";
 import SocialRail from "./SocialRail";
+import SmoothScroller from "./SmoothScroller";
 
 const AppLayout = ({ children }: PropsWithChildren) => {
   return (
@@ -9,7 +10,7 @@ const AppLayout = ({ children }: PropsWithChildren) => {
       <Cursor />
       <Navbar />
       <SocialRail />
-      <main>{children}</main>
+      <SmoothScroller>{children}</SmoothScroller>
     </div>
   );
 };
