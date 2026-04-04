@@ -1,0 +1,22 @@
+<svg width="1280" height="960" viewBox="0 0 1280 960" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="960" rx="48" fill="#0B1322"/>
+  <rect x="48" y="48" width="1184" height="864" rx="40" fill="url(#paint0_linear)"/>
+  <circle cx="248" cy="248" r="150" fill="#38BDF8" fill-opacity="0.18"/>
+  <circle cx="1012" cy="760" r="180" fill="#5EEAD4" fill-opacity="0.14"/>
+  <rect x="164" y="164" width="374" height="152" rx="30" fill="#08111F" fill-opacity="0.78" stroke="#1E293B" stroke-width="4"/>
+  <text x="208" y="238" fill="#F4EFE6" font-size="58" font-family="Space Grotesk, Arial" font-weight="700">GPTutor</text>
+  <text x="208" y="286" fill="#5EEAD4" font-size="28" font-family="Space Grotesk, Arial">AI topic explainers + quizzes</text>
+  <rect x="706" y="198" width="364" height="466" rx="34" fill="#08111F" fill-opacity="0.8" stroke="#1E293B" stroke-width="4"/>
+  <rect x="752" y="256" width="270" height="84" rx="22" fill="#10213C"/>
+  <rect x="752" y="378" width="228" height="22" rx="11" fill="#F4EFE6" fill-opacity="0.76"/>
+  <rect x="752" y="428" width="180" height="22" rx="11" fill="#F4EFE6" fill-opacity="0.45"/>
+  <rect x="752" y="490" width="222" height="92" rx="22" fill="#0F2D31"/>
+  <text x="792" y="550" fill="#5EEAD4" font-size="34" font-family="Space Grotesk, Arial" font-weight="700">Quiz Mode</text>
+  <path d="M248 688C365.333 565.333 462 504.667 538 506C652 508 748 716 876 716C961.333 716 1052 633.333 1148 468" stroke="#F59E0B" stroke-width="20" stroke-linecap="round"/>
+  <defs>
+    <linearGradient id="paint0_linear" x1="100" y1="82" x2="1132" y2="896" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#101B30"/>
+      <stop offset="1" stop-color="#08111F"/>
+    </linearGradient>
+  </defs>
+</svg>

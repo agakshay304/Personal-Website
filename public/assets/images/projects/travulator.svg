@@ -1,0 +1,19 @@
+<svg width="1280" height="960" viewBox="0 0 1280 960" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="960" rx="48" fill="#0B1322"/>
+  <rect x="48" y="48" width="1184" height="864" rx="40" fill="url(#paint0_linear)"/>
+  <circle cx="1018" cy="212" r="138" fill="#5EEAD4" fill-opacity="0.18"/>
+  <circle cx="272" cy="742" r="168" fill="#F59E0B" fill-opacity="0.12"/>
+  <path d="M167 648C285.333 529.333 366 469.333 409 468C473.5 466 552 620 644 620C736 620 822 372 925 372C993.667 372 1072.67 421.333 1162 520" stroke="#F4EFE6" stroke-width="20" stroke-linecap="round"/>
+  <rect x="164" y="200" width="282" height="122" rx="28" fill="#08111F" fill-opacity="0.76" stroke="#1E293B" stroke-width="4"/>
+  <text x="206" y="254" fill="#5EEAD4" font-size="34" font-family="Space Grotesk, Arial" font-weight="700">Travulator</text>
+  <text x="206" y="300" fill="#F4EFE6" font-size="28" font-family="Space Grotesk, Arial">Road trip cost estimator</text>
+  <rect x="792" y="576" width="250" height="162" rx="28" fill="#08111F" fill-opacity="0.76" stroke="#1E293B" stroke-width="4"/>
+  <text x="838" y="642" fill="#F59E0B" font-size="50" font-family="Space Grotesk, Arial" font-weight="700">2 Steps</text>
+  <text x="838" y="690" fill="#F4EFE6" font-size="26" font-family="Space Grotesk, Arial">Vehicle + route</text>
+  <defs>
+    <linearGradient id="paint0_linear" x1="118" y1="84" x2="1122" y2="902" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F1D35"/>
+      <stop offset="1" stop-color="#09111F"/>
+    </linearGradient>
+  </defs>
+</svg>
