@@ -1,3 +1,4 @@
+import HeroScene from "../three/HeroScene";
 import { siteContent } from "../../content";
 import { SECTION_IDS } from "../../constants/layout";
 
@@ -18,9 +19,24 @@ const HeroSection = () => {
             <p key={paragraph}>{paragraph}</p>
           ))}
         </div>
+        <div className="hero__actions">
+          <a className="button button--primary" href={hero.primaryCta.href}>
+            {hero.primaryCta.label}
+          </a>
+          {hero.secondaryCta && (
+            <a
+              className="button button--ghost"
+              href={hero.secondaryCta.href}
+              target={hero.secondaryCta.external ? "_blank" : undefined}
+              rel={hero.secondaryCta.external ? "noreferrer" : undefined}
+            >
+              {hero.secondaryCta.label}
+            </a>
+          )}
+        </div>
       </div>
       <div className="hero__character">
-        <div className="hero-scene hero-scene--placeholder">3D hero scene coming next.</div>
+        <HeroScene />
       </div>
     </section>
   );

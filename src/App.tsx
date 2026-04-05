@@ -6,18 +6,21 @@ import ExpertiseSection from "./components/sections/ExpertiseSection";
 import HeroSection from "./components/sections/HeroSection";
 import ProjectsSection from "./components/sections/ProjectsSection";
 import TechStackSection from "./components/sections/TechStackSection";
+import { LoadingProvider } from "./app/providers/LoadingProvider";
 
 const App = () => {
   return (
-    <AppLayout>
-      <HeroSection />
-      <AboutSection />
-      <ExpertiseSection />
-      <ExperienceSection />
-      <ProjectsSection />
-      <TechStackSection />
-      <ContactSection />
-    </AppLayout>
+    <LoadingProvider>
+      <AppLayout>
+        <HeroSection />
+        <AboutSection />
+        <ExpertiseSection />
+        <ExperienceSection />
+        <ProjectsSection />
+        <TechStackSection />
+        <ContactSection />
+      </AppLayout>
+    </LoadingProvider>
   );
 };
 
