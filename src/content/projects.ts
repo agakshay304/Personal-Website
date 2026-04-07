@@ -3,25 +3,27 @@ import { ProjectEntry } from "../types/content";
 export const projectContent: ProjectEntry[] = [
   {
     name: "Travulator",
-    description: "Project copy will be refined once the final resume mapping is complete.",
+    description:
+      "A mobile road-trip cost estimator that turns route and vehicle details into a fast travel budget.",
     highlights: [
-      "Summarize the user problem clearly.",
-      "Call out delivery platform and implementation details.",
+      "Combines trip inputs with distance calculations to estimate travel cost in two simple steps.",
+      "Published as a Flutter application for travelers who need fast pre-trip planning on mobile.",
     ],
-    tools: ["Flutter", "REST APIs"],
-    linkLabel: "Add project link",
+    tools: ["Flutter", "REST APIs", "Google Maps Platform"],
+    linkLabel: "Open on Google Play",
     link: "<<ADD_TRAVULATOR_URL>>",
     image: "/assets/images/projects/travulator.svg",
   },
   {
     name: "GPTutor",
-    description: "Project copy will be refined once the final resume mapping is complete.",
+    description:
+      "An AI-assisted learning product that generates topic explainers and follow-up quizzes.",
     highlights: [
-      "Summarize the learning workflow.",
-      "Capture the AI-assisted delivery model.",
+      "Uses LLM-backed responses to provide summaries and evaluate learner understanding.",
+      "Targets both mobile and web delivery to keep the learning loop lightweight and accessible.",
     ],
-    tools: ["Flutter", "LLM integration"],
-    linkLabel: "Add project link",
+    tools: ["Flutter", "REST APIs", "LLM integration"],
+    linkLabel: "Open web app",
     link: "<<ADD_GPTUTOR_URL>>",
     image: "/assets/images/projects/gptutor.svg",
   },

@@ -3,25 +3,30 @@ import { AboutContent, ContactInfo, HeroContent } from "../types/content";
 export const heroContent: HeroContent = {
   greeting: "Hello, I'm",
   name: "Akshay Gupta",
-  title: "Software Engineer",
-  punchline: "Building product and platform experiences with a clean delivery model.",
+  title: "Software Development Engineer I - Amazon",
+  punchline:
+    "I design high-impact commerce experiences across detail page, cart, checkout, and order flows.",
   summary: [
-    "This content layer starts as a lightweight scaffold and will be replaced with resume-backed copy.",
+    "I currently build engagement and rewards systems at Amazon, converting unsettled shoppers into loyal customers at 150M+ scale.",
+    "Previously, I strengthened developer platforms at Western Digital by shipping observability, metadata, and build automation for globally distributed firmware teams.",
   ],
   primaryCta: {
-    label: "Get in touch",
+    label: "Email Akshay",
     href: "mailto:agakshay304@gmail.com",
   },
   secondaryCta: {
-    label: "Resume coming soon",
-    href: "<<ADD_RESUME_URL>>",
+    label: "Download Resume",
+    href: "/assets/resume/Akshay_Gupta_Resume.pdf",
+    external: true,
   },
 };
 
 export const aboutContent: AboutContent = {
-  headline: "Product engineering, developer tooling, and thoughtful systems design.",
+  headline:
+    "Product-minded engineer focused on growth surfaces, instrumentation, and reliable developer platforms.",
   description: [
-    "The portfolio content will be refined section by section as the site structure settles.",
+    "I work best where customer experience and systems design intersect: designing the architecture, writing the implementation, and driving launch decisions with clear operational guardrails.",
+    "Across Amazon and Western Digital, my scope has ranged from rewards and lifecycle engagement widgets to tracing frameworks, metadata services, and workflow automation that reduce friction for engineering teams.",
   ],
 };
 
@@ -29,5 +34,5 @@ export const contactContent: ContactInfo = {
   email: "agakshay304@gmail.com",
   phone: "+91 95544 28644",
   location: "India | UTC+05:30",
-  resumeUrl: "<<ADD_RESUME_URL>>",
+  resumeUrl: "/assets/resume/Akshay_Gupta_Resume.pdf",
 };
